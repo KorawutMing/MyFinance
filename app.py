@@ -1,6 +1,5 @@
 import streamlit as st
 import pandas as pd
-import matplotlib.pyplot as plt
 from datetime import datetime, timedelta
 from GlobalTicker.globalticker.ticker import GlobalTicker
 import plotly.graph_objects as go

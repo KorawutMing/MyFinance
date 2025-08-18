@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "globalticker"
+version = "0.1.0"
+description = "Unified finance API for Yahoo Finance (global) and Thai mutual funds (PythaiNAV)."
+authors = [{name = "Korawut Sirianuntapat", email = "korawut_s@outlook.com"}]
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+  "pandas>=1.5",
+  "numpy>=1.23",
+  "yfinance>=0.2.40",
+  "pythainav>=0.2.1"
+]
+keywords = ["finance", "yfinance", "thai", "mutual funds", "nav"]
+license = {text = "MIT"}
+
+[project.urls]
+Homepage = "https://github.com/KorawutMing/GlobalTicker"
+
+[tool.setuptools]
+packages = ["globalticker"]

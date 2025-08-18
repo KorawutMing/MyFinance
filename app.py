@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 from datetime import datetime, timedelta
-from globalticker.ticker import GlobalTicker
+from GlobalTicker.globalticker.ticker import GlobalTicker
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 import numpy as np

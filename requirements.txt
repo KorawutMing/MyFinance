@@ -1,5 +1,5 @@
 pythainav==0.2.1
-streamlit==1.32.1
+streamlit==1.27.1
 numpy==1.26.4
 pandas==2.2.3
 yfinance==0.2.65

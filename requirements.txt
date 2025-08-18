@@ -1,7 +1,5 @@
-# Core packages
 pythainav==0.2.1
-streamlit==1.20.0   # older version compatible with typing-extensions<4
-
+streamlit==1.20.0
 numpy==1.26.4
 pandas==1.5.3
 yfinance==0.2.65

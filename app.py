@@ -121,8 +121,9 @@ if analyze_button and st.session_state.tickers:
                     # Create tabs for different views
                     tab1, tab2, tab3 = st.tabs(["📊 Performance Chart", "📈 Price Chart", "📋 Data Table"])
 
-                    st.line_chart(df_pct)  # quick sanity check with Streamlit's built-in chart
-                    st.write(df_pct.head(10))
+                    # st.line_chart(df_pct)  # quick sanity check with Streamlit's built-in chart
+                    # st.write(df_pct.head(10))
+                    df_pct = df_pct.dropna()
 
                     with tab1:
                         st.subheader(f"Performance Comparison ({selected_range})")

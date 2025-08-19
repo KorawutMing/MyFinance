@@ -5,3 +5,4 @@ pandas==1.5.3
 altair==4.2.2
 jsonschema==4.17.3
 referencing<0.37
+yfinance

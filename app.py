@@ -115,9 +115,7 @@ if analyze_button and st.session_state.tickers:
                 
                 if not df_all.empty:
                     # Compute percent change from first valid value
-                    # df_pct = df_all.pct_change().add(1).cumprod()
-                    # df_pct = (df_pct - 1) * 100  # convert to percent
-                    df_pct = (df_all / df_all.iloc[0] - 1) * 100
+                    df_pct = df_all.apply(lambda col: (col / col.dropna().iloc[0] - 1) * 100)
                     
                     # Create tabs for different views
                     tab1, tab2, tab3 = st.tabs(["📊 Performance Chart", "📈 Price Chart", "📋 Data Table"])

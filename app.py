@@ -120,7 +120,10 @@ if analyze_button and st.session_state.tickers:
                     
                     # Create tabs for different views
                     tab1, tab2, tab3 = st.tabs(["📊 Performance Chart", "📈 Price Chart", "📋 Data Table"])
-                    
+
+                    st.line_chart(df_pct)  # quick sanity check with Streamlit's built-in chart
+                    st.write(df_pct.head(10))
+
                     with tab1:
                         st.subheader(f"Performance Comparison ({selected_range})")
                         
@@ -153,16 +156,6 @@ if analyze_button and st.session_state.tickers:
                         # Performance summary
                         st.subheader("Performance Summary")
                         summary_data = []
-                        # for col in df_pct.columns:
-                        #     latest_pct = df_pct[col].iloc[-1]
-                        #     max_pct = df_pct[col].max()
-                        #     min_pct = df_pct[col].min()
-                        #     summary_data.append({
-                        #         'Ticker': col,
-                        #         'Total Return (%)': f"{latest_pct:.2f}%",
-                        #         'Max Gain (%)': f"{max_pct:.2f}%",
-                        #         'Max Loss (%)': f"{min_pct:.2f}%"
-                        #     })
                         for col in df_pct.columns:
                             series = df_all[col].dropna()
                             

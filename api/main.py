@@ -23,14 +23,26 @@ app = FastAPI(title="GlobalTicker API")
 ticker_cache: Dict[str, GlobalTicker] = {}
 
 def get_or_create_ticker(symbol: str, currency: str = "THB") -> GlobalTicker:
-    """Get ticker from cache or create new one"""
-    cache_key = f"{symbol}_{currency}"
+    """Get ticker from cache or create new one with special handling for FX"""
+    clean_symbol = unquote(symbol).upper()
+    
+    # Check if the symbol is a currency pair (e.g., USDTHB)
+    # Yahoo Finance uses the format 'USDTHB=X' for exchange rates
+    if len(clean_symbol) == 6 and clean_symbol.isalpha() and not clean_symbol.endswith(".BK"):
+        # If the user requested USDTHB, we use the Yahoo FX symbol
+        yf_symbol = f"{clean_symbol}=X"
+        logger.info(f"Detected FX pair. Mapping {clean_symbol} to {yf_symbol}")
+    else:
+        yf_symbol = clean_symbol
+
+    cache_key = f"{yf_symbol}_{currency}"
     
     if cache_key not in ticker_cache:
-        logger.info(f"Creating new ticker for {symbol} with currency {currency}")
-        ticker_cache[cache_key] = GlobalTicker(symbol, currency=currency)
+        logger.info(f"Creating new ticker for {yf_symbol} with currency {currency}")
+        # Note: For USDTHB=X, the base currency is usually implied by the pair
+        ticker_cache[cache_key] = GlobalTicker(yf_symbol, currency=currency)
     else:
-        logger.info(f"Using cached ticker for {symbol}")
+        logger.info(f"Using cached ticker for {yf_symbol}")
     
     return ticker_cache[cache_key]
 
@@ -39,48 +51,34 @@ def get_fund_data(
     symbol: str,
     currency: str = Query(default="THB", description="Currency for price conversion")
 ):
-    """Get latest price for a symbol"""
-    clean_symbol = unquote(symbol)
-    
+    """Get latest price for a symbol (including FX pairs like USDTHB)"""
     try:
-        # Get or create ticker
-        ticker = get_or_create_ticker(clean_symbol, currency)
+        ticker = get_or_create_ticker(symbol, currency)
         
-        # Fetch 1 year of data (same as your notebook)
         end_date = datetime.today()
-        start_date = end_date - timedelta(days=365)
-        
-        logger.info(f"Fetching history for {clean_symbol} from {start_date} to {end_date}")
+        start_date = end_date - timedelta(days=7) # Small window for latest price
         
         df = ticker.history(
             start=start_date.strftime("%Y-%m-%d"),
             end=end_date.strftime("%Y-%m-%d")
         )
         
-        # Check if we got valid data
         if df is None or df.empty:
-            raise ValueError(f"No data returned for {clean_symbol}")
+            raise ValueError(f"No data returned for {symbol}")
         
-        logger.info(f"Got {len(df)} rows for {clean_symbol}")
-        
-        # Get the most recent entry
         latest = df.iloc[-1]
         latest_date = df.index[-1]
         
         return {
-            "symbol": clean_symbol,
+            "symbol": symbol.upper(),
             "price": float(latest["Price"]),
-            "date": latest_date.strftime("%Y-%m-%d") if hasattr(latest_date, 'strftime') else str(latest_date),
+            "date": latest_date.strftime("%Y-%m-%d"),
             "currency": currency,
-            "data_points": len(df)
+            "is_fx": "=X" in ticker.symbol
         }
-        
     except Exception as e:
-        logger.error(f"Error for {clean_symbol}: {str(e)}")
-        raise HTTPException(
-            status_code=404,
-            detail=f"Error fetching data for {clean_symbol}: {str(e)}"
-        )
+        logger.error(f"Error for {symbol}: {str(e)}")
+        raise HTTPException(status_code=404, detail=str(e))
 
 @app.get("/market-data/{symbol}/history")
 def get_fund_history(

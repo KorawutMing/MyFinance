@@ -1,9 +1,0 @@
-services:
-  thainav-api:
-    build: .
-    container_name: thainav_bridge
-    ports:
-      - "8000:8000"
-    restart: always
-    environment:
-      - TZ=Asia/Bangkok

@@ -1,0 +1,9 @@
+pythainav==0.2.1
+streamlit==1.20.0
+numpy==1.25.2
+pandas==1.5.3
+altair==4.2.2
+jsonschema==4.17.3
+referencing<0.37
+yfinance
+plotly>=5.15.0,<6.0.0

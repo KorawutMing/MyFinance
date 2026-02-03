@@ -8,13 +8,15 @@ RUN apt-get update && apt-get install -y build-essential && rm -rf /var/lib/apt/
 # 2. Copy requirements
 COPY requirements.txt .
 
-# 3. THE FIX: Install core packages with --no-deps 
+# 3. THE ISOLATION INSTALL: Use --no-deps for the main packages
 RUN pip install --no-cache-dir pythainav==0.2.1 --no-deps && \
     pip install --no-cache-dir fastapi uvicorn pydantic pandas yfinance --no-deps
 
-# 4. MANUALLY install the dependencies Uvicorn and others need.
-# We added 'click' and 'h11' here to make Uvicorn happy.
+# 4. THE DEPENDENCY BRIDGE: Install the missing links manually
+# Added 'starlette' and 'pydantic-settings' to fix the current crash
 RUN pip install --no-cache-dir \
+    starlette \
+    pydantic-settings \
     click \
     h11 \
     requests \

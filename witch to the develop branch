@@ -1,0 +1,37 @@
+[33mf1572f7[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m update docker
+[33mf0f8f2a[m update docker
+[33m17d78a7[m update docker
+[33mc4932d7[m update docker
+[33me70e024[m update dependency
+[33m2959579[m update requirements
+[33m836fab1[m add api
+[33m58c9bc9[m update logic
+[33m500a509[m remove dropna bug
+[33mebae596[m update percent
+[33mff6bf5c[m fix
+[33m8a3abf5[m fix nan
+[33mabebaba[m fix
+[33ma6abe05[m fix
+[33m3b9856f[m debug
+[33m54eca83[m update readme
+[33mb403764[m fix requirement
+[33mf2149bd[m update requirements
+[33m1b16779[m fix requirement
+[33m8ef46e2[m fix requirement
+[33m3e63f4f[m update streamlit version
+[33m6c15fb7[m update version
+[33mf77c226[m update requirements
+[33m8b3d6b1[m Fix GlobalTicker as normal folder
+[33m91b45c3[m update dependency
+[33m5e6e506[m update GlobalTicker
+[33m0138a92[m edit dependency
+[33m56d56b4[m remove dependency
+[33m5d1d6c3[m update dependency
+[33m372bcab[m Merge branch 'main' of https://github.com/KorawutMing/MyFinance
+[33mf73be48[m update requirements
+[33mf7c511a[m Added Dev Container Folder
+[33m18e7ae8[m delete unwanted lib
+[33m18b1c41[m readme
+[33mb920934[m Merge branch 'main' of https://github.com/KorawutMing/MyFinance
+[33m84e878a[m Initial commit
+[33me1bd484[m initial

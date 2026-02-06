@@ -17,7 +17,23 @@ from GlobalTicker.globalticker.ticker import GlobalTicker
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-app = FastAPI(title="GlobalTicker API")
+from apscheduler.schedulers.background import BackgroundScheduler
+from contextlib import asynccontextmanager
+
+# Define the lifespan to manage the scheduler
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Start the scheduler on startup
+    scheduler = BackgroundScheduler()
+    # Call your existing clear_cache function every 12 hours
+    scheduler.add_job(clear_cache, 'interval', hours=12)
+    scheduler.start()
+    yield
+    # Shut down on exit
+    scheduler.shutdown()
+
+# Update your app initialization
+app = FastAPI(title="GlobalTicker API", lifespan=lifespan)
 
 # Cache for GlobalTicker instances
 ticker_cache: Dict[str, GlobalTicker] = {}
